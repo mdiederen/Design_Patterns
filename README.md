@@ -541,3 +541,139 @@ public class Main {
 ```
 ### Object Pool
 Het Object Pool pattern maakt een pool van objecten die meerdere clienten kunnen gebruiken. Denk hierbij aan bijvoorbeeld een databaseconnectie. Dit is een 'dure' resource om iedere keer opnieuw aan te maken. Daarom is het logisch om de connectie eenmalig te maken en daarna door meerdere klassen te gebruiken.
+
+Het object pool pattern wordt tegenwoordig niet veel meer gebruikt omdat systemen snel genoeg zijn om ook wat men vroeger 'dure' resources noemden snel uit te kunnen voeren. Het is dan overbodig om pools te vullen. Dit kost dan meer laadtijd en geheugen.
+
+Het wordt soms wel nog gebruikt bij JDBC om snel toegang te krijgen tot een db connectie.
+
+![alt text](Object_Pool_pattern.png "Object Pool pattern diagram")
+
+#### *ObjectPool.java*
+
+```java
+public abstract class ObjectPool<T> {
+	  private long expirationTime;
+
+	  private Hashtable<T, Long> locked, unlocked;
+
+	  public ObjectPool() {
+	    expirationTime = 30000; // 30 seconds
+	    locked = new Hashtable<T, Long>();
+	    unlocked = new Hashtable<T, Long>();
+	  }
+
+	  protected abstract T create();
+
+	  public abstract boolean validate(T o);
+
+	  public abstract void expire(T o);
+
+	  public synchronized T checkOut() {
+	    long now = System.currentTimeMillis();
+	    T t;
+	    if (unlocked.size() > 0) {
+	      Enumeration<T> e = unlocked.keys();
+	      while (e.hasMoreElements()) {
+	        t = e.nextElement();
+	        if ((now - unlocked.get(t)) > expirationTime) {
+	          // object has expired
+	          unlocked.remove(t);
+	          expire(t);
+	          t = null;
+	        } else {
+	          if (validate(t)) {
+	            unlocked.remove(t);
+	            locked.put(t, now);
+	            return (t);
+	          } else {
+	            // object failed validation
+	            unlocked.remove(t);
+	            expire(t);
+	            t = null;
+	          }
+	        }
+	      }
+	    }
+	    // no objects available, create a new one
+	    t = create();
+	    locked.put(t, now);
+	    return (t);
+	  }
+
+	  public synchronized void checkIn(T t) {
+	    locked.remove(t);
+	    unlocked.put(t, System.currentTimeMillis());
+	  }
+	}
+```
+#### *JDBCConnectionPool.java*
+
+```java
+public class JDBCConnectionPool extends ObjectPool<Connection> {
+
+	  private String dsn, usr, pwd;
+
+	public JDBCConnectionPool(String driver, String dsn, String usr, String pwd) {
+	    super();
+	    try {
+	      Class.forName(driver);
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    }
+	    this.dsn = dsn;
+	    this.usr = usr;
+	    this.pwd = pwd;
+	  }
+
+	  @Override
+	  protected Connection create() {
+	    try {
+	      return (DriverManager.getConnection(dsn, usr, pwd));
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	      return (null);
+	    }
+	  }
+
+	  @Override
+	  public void expire(Connection o) {
+	    try {
+	      ((Connection) o).close();
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	    }
+	  }
+
+	  @Override
+	  public boolean validate(Connection o) {
+	    try {
+	      return (!((Connection) o).isClosed());
+	    } catch (SQLException e) {
+	      e.printStackTrace();
+	      return (false);
+	    }
+	  }
+	}
+```
+#### *Main.java*
+
+```java
+public class Main {
+	  public static void main(String args[]) {
+	    // Create the ConnectionPool:
+	    JDBCConnectionPool pool = new JDBCConnectionPool(
+	      "org.hsqldb.jdbcDriver", "jdbc:hsqldb://localhost/mydb",
+	      "sa", "secret");
+
+	    // Get a connection:
+	    Connection con = pool.checkOut();
+
+	    // Use the connection
+
+	    // Return the connection:
+	    pool.checkIn(con);
+
+	  }
+	}
+```
+## Behavioral Design Patterns
