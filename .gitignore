@@ -1,0 +1,13 @@
+/.metadata
+/.recommenders
+/RemoteSystemsTempFiles
+*.snap
+*.zip
+*.xml
+*.xmi
+*.index
+*.dat
+*.lck
+*.DS_Store
+*.vpp.bak_001d
+*.vpp.bak_001f

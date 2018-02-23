@@ -1,0 +1,5 @@
+WARNING - 15:00:33: First conversion pass
+ERROR - 15:00:33: java.net.MalformedURLException: unknown protocol: pathmap
+WARNING - 15:00:47: Convert nl.pafr.observer
+WARNING - 15:00:47: First conversion pass
+ERROR - 15:00:47: java.net.MalformedURLException: unknown protocol: pathmap
