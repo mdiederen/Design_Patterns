@@ -864,4 +864,127 @@ Een **nadeel** van het command pattern is dat je heel veel kleine klassen aan mo
 
 ![alt text](UML/Command_pattern.png "Command pattern diagram")
 
-###Code staat op GitHub in de map Command
+#### Code staat op GitHub in de map Command
+
+### Interpeter
+
+Het Interpeter pattern wordt niet veel gebruikt. Het wordt vooral gebruikt om een representatie van data te converteren naar een andere representatie van dezelfde data.
+
+Omdat dit een pattern is wat nauwelijks gebruikt word zal ik hier geen verdere aandacht aan besteden.
+
+### Iterator
+
+Het iterator pattern itereert zoals de naam al doet vermoeden over collecties. Het mooie van dit pattern is dat de iterator niks van het object hoeft te weten om over de collectie te itereren. Je kan daardoor ook verschillende soorten collecties gebruiken (list, ArrayList etc.).
+
+![alt text](UML/Iterator_pattern.png "Command pattern diagram")
+
+##### *Item.java (object)*
+
+```java
+public class Item {
+
+	String name;
+	float price;
+
+	public Item(String name, float price) {
+		this.name = name;
+		this.price = price;
+	}
+
+	public String toString() {
+		return name + ": $" + price;
+	}
+}
+```
+##### *Menu.java (collection)*
+
+```java
+public class Menu {
+
+	private List<Item> menuItems;
+
+	public Menu() {
+		menuItems = new ArrayList<Item>();
+	}
+
+	public void addItem(Item item) {
+		menuItems.add(item);
+	}
+
+	public List<Item> getMenuItems() {
+		return menuItems;
+	}
+
+}
+```
+##### *MenuIterator.java (iterator)*
+
+```java
+public class MenuIterator implements Iterator<Item> {
+
+	private List<Item> menuItems;
+	private int currentIndex = 0;
+
+	public MenuIterator(List<Item> items) {
+		super();
+		this.menuItems = items;
+	}
+
+	@Override
+	public boolean hasNext() {
+		if (currentIndex >= menuItems.size()) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public Item next() {
+		return menuItems.get(currentIndex++);
+	}
+
+	@Override
+	public void remove() {
+		menuItems.remove(--currentIndex);
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+		Item i1 = new Item("spaghetti", 7.50f);
+		Item i2 = new Item("hamburger", 6.00f);
+		Item i3 = new Item("chicken sandwich", 6.50f);
+
+		Menu menu = new Menu();
+		menu.addItem(i1);
+		menu.addItem(i2);
+		menu.addItem(i3);
+
+		System.out.println("Displaying Menu:\n");
+
+		MenuIterator iterator = new MenuIterator(menu.getMenuItems());
+
+		while (iterator.hasNext()) {
+			Item item = iterator.next();
+			System.out.println(item);
+		}
+
+		System.out.println("\nRemoving last item returned");
+		iterator.remove();
+
+		System.out.println("\nDisplaying Menu:");
+		iterator = new MenuIterator(menu.getMenuItems());
+		while (iterator.hasNext()) {
+			Item item = iterator.next();
+			System.out.println(item);
+		}
+	}
+
+}
+```
