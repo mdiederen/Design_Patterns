@@ -856,6 +856,10 @@ public class Main {
 }
 ```
 ### Command
+Het command pattern kan code opslaan die later uitgevoerd moet worden. Denk hierbij bijvoorbeeld aan een tv: Als je op de aan-knop drukt moet de tv opgestart worden, er moet dan een lijst aan commando's uitgevoerd worden zodra er op de knop is gedrukt.
 
+Je kan ook undo producdures implementeren voor de commando's die zijn uitgevoerd. Als je bijvoorbeeld nog een keer op de aan-knop drukt zou de tv weer uit moeten gaan.
+
+Een **nadeel** van het command pattern is dat je heel veel kleine klassen aan moet maken die lijstjes met commands bezitten.
 
 ![alt text](Command_pattern.png "Command pattern diagram")
