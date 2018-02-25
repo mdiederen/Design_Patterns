@@ -10,7 +10,7 @@ Deze instance is dan beschikbaar door de volledige code.
 
 ![alt text](Singleton.png "Singleton pattern diagram")
 
-#### *Singleton.java*
+###### *Singleton.java*
 ```java
 public class Singleton {
 
@@ -39,7 +39,7 @@ public class Singleton {
 
 }
 ```
-#### *Main.java*
+###### *Main.java*
 
 ```java
 public class Main {
@@ -63,7 +63,7 @@ Het factory pattern is een manier om objecten te instantiëren zonder exact vast
 
 ![alt text](Factory_pattern.png "Factory pattern diagram")
 
-#### *Smartphone.java*
+###### *Smartphone.java*
 
 ```java
 public interface Smartphone {
@@ -71,7 +71,7 @@ public interface Smartphone {
 }
 
 ```
-#### *Iphone.java*
+###### *Iphone.java*
 
 ```java
 public class Iphone implements Smartphone{
@@ -83,7 +83,7 @@ public class Iphone implements Smartphone{
 	}
 }
 ```
-#### *Samsung.java*
+###### *Samsung.java*
 
 ```java
 public class Samsung implements Smartphone {
@@ -95,7 +95,7 @@ public class Samsung implements Smartphone {
 	}
 }
 ```
-#### *SmartphoneFabriek.java*
+###### *SmartphoneFabriek.java*
 
 ```java
 public abstract class SmartphoneFabriek {
@@ -104,7 +104,7 @@ public abstract class SmartphoneFabriek {
 
 }
 ```
-#### *IphoneFabriek.java*
+##### *IphoneFabriek.java*
 
 ```java
 public class IphoneFabriek extends SmartphoneFabriek{
@@ -116,7 +116,7 @@ public class IphoneFabriek extends SmartphoneFabriek{
 
 }
 ```
-#### *SamsungFabriek.java*
+##### *SamsungFabriek.java*
 
 ```java
 public class SamsungFabriek extends SmartphoneFabriek {
@@ -128,7 +128,7 @@ public class SamsungFabriek extends SmartphoneFabriek {
 
 }
 ```
-#### *Main.java*
+##### *Main.java*
 
 ```java
 public class Main {
@@ -155,7 +155,7 @@ Je kan dus tijdens runtime kijken welk besturingssysteem er draait en daarop je 
 
 ![alt text](Abstract_Factory_pattern.png "Factory pattern diagram")
 
-#### *AbstractVensterFactory.java*
+##### *AbstractVensterFactory.java*
 
 ```java
 public interface AbstractVensterFactory {
@@ -164,7 +164,7 @@ public interface AbstractVensterFactory {
 
 }
 ```
-#### *MacOSVensterFactory.java*
+##### *MacOSVensterFactory.java*
 
 ```java
 public class MacOSVensterFactory implements AbstractVensterFactory{
@@ -177,7 +177,7 @@ public class MacOSVensterFactory implements AbstractVensterFactory{
 
 }
 ```
-#### *WindowsVensterFactory.java*
+##### *WindowsVensterFactory.java*
 
 ```java
 public class WindowsVensterFactory implements AbstractVensterFactory{
@@ -191,7 +191,7 @@ public class WindowsVensterFactory implements AbstractVensterFactory{
 
 }
 ```
-#### *Venster.java*
+##### *Venster.java*
 
 ```java
 public interface Venster {
@@ -200,7 +200,7 @@ public interface Venster {
 
 }
 ```
-#### *MacOSVenster.java*
+##### *MacOSVenster.java*
 
 ```java
 public class MacOSVenster implements Venster{
@@ -214,7 +214,7 @@ public class MacOSVenster implements Venster{
 
 }
 ```
-#### *WindowsVenster.java*
+##### *WindowsVenster.java*
 
 ```java
 public class WindowsVenster implements Venster{
@@ -228,7 +228,7 @@ public class WindowsVenster implements Venster{
 
 }
 ```
-#### *GUIBuilder.java*
+##### *GUIBuilder.java*
 
 ```java
 public class GUIBuilder {
@@ -239,7 +239,7 @@ public class GUIBuilder {
 	}
 }
 ```
-#### *Main.java*
+##### *Main.java*
 
 ```java
 public class Main {
@@ -268,7 +268,7 @@ Het Builder pattern kan een gecompliceerd object bouwen door gebruik te maken va
 
 ![alt text](Builder_pattern.png "Builder pattern diagram")
 
-#### *AbstractPizzaBuilder.java*
+##### *AbstractPizzaBuilder.java*
 
 ```java
 public abstract class AbstractPizzaBuilder {
@@ -287,7 +287,7 @@ public abstract class AbstractPizzaBuilder {
     public abstract void buildTopping();
 }
 ```
-#### *SpicyPepperoniPizzaBuilder.java*
+##### *SpicyPepperoniPizzaBuilder.java*
 
 ```java
 public class SpicyPepperoniPizzaBuilder extends AbstractPizzaBuilder{
@@ -313,7 +313,7 @@ public class SpicyPepperoniPizzaBuilder extends AbstractPizzaBuilder{
 }
 
 ```
-#### *HawaiianPizzaBuilder.java*
+##### *HawaiianPizzaBuilder.java*
 
 ```java
 public class HawaiianPizzaBuilder extends AbstractPizzaBuilder{
@@ -338,7 +338,7 @@ public class HawaiianPizzaBuilder extends AbstractPizzaBuilder{
 
 }
 ```
-#### *Pizza.java*
+##### *Pizza.java*
 
 ```java
 public class Pizza {
@@ -372,7 +372,7 @@ public class Pizza {
 }
 ```
 
-#### *Waiter.java*
+##### *Waiter.java*
 
 ```java
 public class Waiter {
@@ -396,7 +396,7 @@ public class Waiter {
 
 }
 ```
-#### *Main.java*
+##### *Main.java*
 
 ```java
 public class Main {
@@ -432,7 +432,7 @@ Het Prototype pattern maakt nieuwe objecten door het clonen / kopieeren van een 
 
 ![alt text](Prototype_pattern.png "Prototype pattern diagram")
 
-#### *Animal.java*
+##### *Animal.java*
 
 ```java
 public interface Animal extends Cloneable {
@@ -441,7 +441,7 @@ public interface Animal extends Cloneable {
 
 }
 ```
-#### *Sheep.java*
+##### *Sheep.java*
 
 ```java
 public class Sheep implements Animal {
@@ -472,7 +472,7 @@ public class Sheep implements Animal {
 
 }
 ```
-#### *Animal.java*
+##### *Animal.java*
 
 ```java
 public class Dog implements Animal{
@@ -502,7 +502,7 @@ public class Dog implements Animal{
 	}
 }
 ```
-#### *CloneFactory.java*
+##### *CloneFactory.java*
 
 ```java
 public class CloneFactory {
@@ -515,7 +515,7 @@ public class CloneFactory {
 
 }
 ```
-#### *Main.java*
+##### *Main.java*
 
 ```java
 public class Main {
@@ -548,7 +548,7 @@ Het wordt soms wel nog gebruikt bij JDBC om snel toegang te krijgen tot een db c
 
 ![alt text](Object_Pool_pattern.png "Object Pool pattern diagram")
 
-#### *ObjectPool.java*
+##### *ObjectPool.java*
 
 ```java
 public abstract class ObjectPool<T> {
@@ -606,7 +606,7 @@ public abstract class ObjectPool<T> {
 	  }
 	}
 ```
-#### *JDBCConnectionPool.java*
+##### *JDBCConnectionPool.java*
 
 ```java
 public class JDBCConnectionPool extends ObjectPool<Connection> {
@@ -655,7 +655,7 @@ public class JDBCConnectionPool extends ObjectPool<Connection> {
 	  }
 	}
 ```
-#### *Main.java*
+##### *Main.java*
 
 ```java
 public class Main {
@@ -677,3 +677,185 @@ public class Main {
 	}
 ```
 ## Behavioral Design Patterns
+
+### Chain of Responsibility
+Het Chain of Responsibility pattern is vrij simpel. Het krijgt een request binnen en gaat alle chains (klasses) langs om te kijken of de klassen de request kan afhandelen. Als dit niet het geval is dan word de request doorgegeven naar de volgende klasse.
+
+![alt text](Chain_of_Responsibillity_pattern.png "Object Pool pattern diagram")
+
+##### *Chain.java*
+
+```java
+public interface Chain {
+	public void setNextChain(Chain nextChain);
+	public void calculate(Numbers request);
+}
+```
+##### *Numbers.java*
+
+```java
+public class Numbers {
+
+	private double number1;
+	private double number2;
+
+	private String calculation;
+
+	public Numbers(Double num1, Double num2, String calc) {
+		number1 = num1;
+		number2 = num2;
+		calculation = calc;
+	}
+
+	public double getNumber1() {
+		return number1;
+	}
+
+	public double getNumber2() {
+		return number2;
+	}
+
+	public String getCalculation() {
+		return calculation;
+	}
+
+}
+```
+##### *AddNumber.java*
+
+```java
+public class AddNumber implements Chain{
+
+	private Chain nextInChain;
+
+	@Override
+	public void setNextChain(Chain nextChain) {
+		nextInChain = nextChain;
+
+	}
+
+	@Override
+	public void calculate(Numbers request) {
+
+		if(request.getCalculation() == "add") {
+			Double calculation = (request.getNumber1()+request.getNumber2());
+			System.out.println(request.getNumber1() + " + " + request.getNumber2() + " = " + calculation);
+		} else {
+
+			nextInChain.calculate(request);
+		}
+
+	}
+
+}
+```
+##### *SubtractNumber.java*
+
+```java
+public class SubtractNumber implements Chain{
+
+	private Chain nextInChain;
+
+	@Override
+	public void setNextChain(Chain nextChain) {
+		nextInChain = nextChain;
+
+	}
+
+	@Override
+	public void calculate(Numbers request) {
+		if(request.getCalculation() == "sub") {
+			Double calculation = (request.getNumber1()-request.getNumber2());
+			System.out.println(request.getNumber1() + " - " + request.getNumber2() + " = " + calculation);
+		} else {
+
+			nextInChain.calculate(request);
+		}
+
+	}
+
+}
+```
+##### *MultNumber.java*
+
+```java
+public class MultNumber implements Chain{
+
+	private Chain nextInChain;
+
+	@Override
+	public void setNextChain(Chain nextChain) {
+		nextInChain = nextChain;
+
+	}
+
+	@Override
+	public void calculate(Numbers request) {
+		if(request.getCalculation() == "mult") {
+			Double calculation = (request.getNumber1()*request.getNumber2());
+			System.out.println(request.getNumber1() + " X " + request.getNumber2() + " = " + calculation);
+		} else {
+
+			nextInChain.calculate(request);
+		}
+
+	}
+
+}
+```
+
+##### *DivideNumber.java*
+
+```java
+public class DivideNumber implements Chain{
+
+	private Chain nextInChain;
+
+	@Override
+	public void setNextChain(Chain nextChain) {
+		nextInChain = nextChain;
+
+	}
+
+	@Override
+	public void calculate(Numbers request) {
+		if(request.getCalculation() == "div") {
+			Double calculation = (request.getNumber1()/request.getNumber2());
+			System.out.println(request.getNumber1() + " / " + request.getNumber2() + " = " + calculation);
+		} else {
+
+			System.out.println("You can only add, sub, mult & div.");
+		}
+
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+
+		Chain chainCalc1 = new AddNumber();
+		Chain chainCalc2 = new SubtractNumber();
+		Chain chainCalc3 = new MultNumber();
+		Chain chainCalc4 = new DivideNumber();
+
+		chainCalc1.setNextChain(chainCalc2);
+		chainCalc2.setNextChain(chainCalc3);
+		chainCalc3.setNextChain(chainCalc4);
+
+		Numbers request = new Numbers(1234.0, 4321.0, "mult");
+
+		chainCalc1.calculate(request);
+
+	}
+
+}
+```
+### Command
+
+
+![alt text](Command_pattern.png "Command pattern diagram")
