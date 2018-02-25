@@ -8,7 +8,7 @@ Deze instance is dan beschikbaar door de volledige code.
 
 *Een toepassing van de singleton is bijvoorbeeld het maken van unieke identificatienummers binnen een programma. Om er altijd zeker van te zijn dat elk identificatienummer uniek is, is het handig om dit door één enkel object te laten genereren. Dit is dan een singleton.* (wikipedia)
 
-![alt text](Singleton.png "Singleton pattern diagram")
+![alt text](UML/Singleton.png "Singleton pattern diagram")
 
 ###### *Singleton.java*
 ```java
@@ -61,7 +61,7 @@ Het factory pattern is een manier om objecten te instantiëren zonder exact vast
 
 *Het doel van dit ontwerppatroon is het vereenvoudigen van het onderhoud van het programma. Als er nieuwe subklassen nodig zijn dan hoeft men alleen een nieuwe factory-methode te implementeren.* (wikipedia)
 
-![alt text](Factory_pattern.png "Factory pattern diagram")
+![alt text](UML/Factory_pattern.png "Factory pattern diagram")
 
 ###### *Smartphone.java*
 
@@ -153,7 +153,7 @@ De 'super-factory' is hier de AbstractVensterFactory. Deze creeërt weer de fact
 
 Je kan dus tijdens runtime kijken welk besturingssysteem er draait en daarop je interface aanpassen.
 
-![alt text](Abstract_Factory_pattern.png "Factory pattern diagram")
+![alt text](UML/Abstract_Factory_pattern.png "Factory pattern diagram")
 
 ##### *AbstractVensterFactory.java*
 
@@ -266,7 +266,7 @@ public class Main {
 ### Builder
 Het Builder pattern kan een gecompliceerd object bouwen door gebruik te maken van simplere objecten. Het gaat stap voor stap (1. buildDough, 2. buildSauce, 3. buildToppings). Als de builder klaar is dan geeft hij het object (in ons geval een pizza) terug aan de director (in ons geval de waiter).
 
-![alt text](Builder_pattern.png "Builder pattern diagram")
+![alt text](UML/Builder_pattern.png "Builder pattern diagram")
 
 ##### *AbstractPizzaBuilder.java*
 
@@ -430,7 +430,7 @@ public class Main {
 ### Prototype
 Het Prototype pattern maakt nieuwe objecten door het clonen / kopieeren van een ander object. Dit kost niet veel resources en zorgt dus voor betere performance van je applicatie.
 
-![alt text](Prototype_pattern.png "Prototype pattern diagram")
+![alt text](UML/Prototype_pattern.png "Prototype pattern diagram")
 
 ##### *Animal.java*
 
@@ -546,7 +546,7 @@ Het object pool pattern wordt tegenwoordig niet veel meer gebruikt omdat systeme
 
 Het wordt soms wel nog gebruikt bij JDBC om snel toegang te krijgen tot een db connectie.
 
-![alt text](Object_Pool_pattern.png "Object Pool pattern diagram")
+![alt text](UML/Object_Pool_pattern.png "Object Pool pattern diagram")
 
 ##### *ObjectPool.java*
 
@@ -681,7 +681,7 @@ public class Main {
 ### Chain of Responsibility
 Het Chain of Responsibility pattern is vrij simpel. Het krijgt een request binnen en gaat alle chains (klasses) langs om te kijken of de klassen de request kan afhandelen. Als dit niet het geval is dan word de request doorgegeven naar de volgende klasse.
 
-![alt text](Chain_of_Responsibillity_pattern.png "Object Pool pattern diagram")
+![alt text](UML/Chain_of_Responsibillity_pattern.png "Object Pool pattern diagram")
 
 ##### *Chain.java*
 
@@ -862,4 +862,6 @@ Je kan ook undo producdures implementeren voor de commando's die zijn uitgevoerd
 
 Een **nadeel** van het command pattern is dat je heel veel kleine klassen aan moet maken die lijstjes met commands bezitten.
 
-![alt text](Command_pattern.png "Command pattern diagram")
+![alt text](UML/Command_pattern.png "Command pattern diagram")
+
+###Code staat op GitHub in de map Command
