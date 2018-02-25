@@ -876,7 +876,7 @@ Omdat dit een pattern is wat nauwelijks gebruikt word zal ik hier geen verdere a
 
 Het iterator pattern itereert zoals de naam al doet vermoeden over collecties. Het mooie van dit pattern is dat de iterator niks van het object hoeft te weten om over de collectie te itereren. Je kan daardoor ook verschillende soorten collecties gebruiken (list, ArrayList etc.).
 
-![alt text](UML/Iterator_pattern.png "Command pattern diagram")
+![alt text](UML/Iterator_pattern.png "Iterator pattern diagram")
 
 ##### *Item.java (object)*
 
@@ -986,5 +986,263 @@ public class Main {
 		}
 	}
 
+}
+```
+### Mediator
+
+Het mediator pattern kan je zien als een derde partij die zorgt voor de comunicatie logica. Bijvoorbeeld een chatbox, de gebruikers hoeven niet rechtstreeks met elkaar in contact te staan maar alles verloopt via een mediator (de chatbox). Een ander voorbeeld is een airtrafic controler; deze zorgt voor de comunicatie tussen de verschillende vluchten. De objecten die met elkaar comuniceren heten colega's. Het mediator pattern zorgt voor lose-coupling tussen deze colega's.
+
+![alt text](UML/Mediator_pattern.png "Mediator pattern diagram")
+
+##### *ChatMediator.java*
+
+```java
+public interface ChatMediator {
+
+	public void sendMessage(String msg, User user);
+
+	void addUser(User user);
+}
+```
+##### *User.java*
+
+```java
+public abstract class User {
+	protected ChatMediator mediator;
+	protected String name;
+
+	public User(ChatMediator med, String name){
+		this.mediator=med;
+		this.name=name;
+	}
+
+	public abstract void send(String msg);
+
+	public abstract void receive(String msg);
+}
+```
+##### *ChatMediatorImpl.java*
+
+```java
+public class ChatMediatorImpl implements ChatMediator {
+
+	private List<User> users;
+
+	public ChatMediatorImpl(){
+		this.users = new ArrayList<>();
+	}
+
+	@Override
+	public void addUser(User user){
+		this.users.add(user);
+	}
+
+	@Override
+	public void sendMessage(String msg, User user) {
+		for(User u : this.users){
+			//message should not be received by the user sending it
+			if(u != user){
+				u.receive(msg);
+			}
+		}
+	}
+
+}
+
+```
+##### *UserImpl.java*
+
+```java
+public class UserImpl extends User {
+
+	public UserImpl(ChatMediator med, String name) {
+		super(med, name);
+	}
+
+	@Override
+	public void send(String msg){
+		System.out.println(this.name+": Sending Message: "+msg);
+		mediator.sendMessage(msg, this);
+	}
+	@Override
+	public void receive(String msg) {
+		System.out.println(this.name+": Received Message: "+msg);
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+	public static void main(String[] args) {
+		ChatMediator mediator = new ChatMediatorImpl();
+		User user1 = new UserImpl(mediator, "Michiel");
+		User user2 = new UserImpl(mediator, "John");
+		User user3 = new UserImpl(mediator, "Paul");
+		User user4 = new UserImpl(mediator, "Sarah");
+		mediator.addUser(user1);
+		mediator.addUser(user2);
+		mediator.addUser(user3);
+		mediator.addUser(user4);
+
+		user1.send("Hi there!");
+
+	}
+}
+```
+### Observer
+
+Het Observer pattern stuurt bij een verandering van het object dat geobserveerd wordt een notificatie naar de objecten die observeren. In het voorbeeld heb ik gebruik gemaakt van een weerstation. Als er een weerupdate binnen komt dan stuurt de Weather implementatie een update naar alle observers (website & screen) met de tempratuur & luchtvochtigheid.
+
+![alt text](UML/Observer_pattern.png "Iterator pattern diagram")
+
+##### *Observable.java*
+
+```java
+public interface Observable {
+
+	public void addObserver(Observer obs);
+	public void removeObserver(Observer obs);
+	public void notifyObservers();
+
+}
+```
+##### *Weather.java*
+
+```java
+public class Weather implements Observable{
+
+	private List<Observer> observers = new ArrayList<Observer>();
+	private Double temprature;
+	private Double humidity;
+
+	public Weather(Double temp, Double hum) {
+		this.temprature = temp;
+		this.humidity = hum;
+	}
+
+	@Override
+	public void addObserver(Observer obs) {
+		observers.add(obs);
+		System.out.println("Observer "+obs+" added.");
+
+	}
+
+	@Override
+	public void removeObserver(Observer obs) {
+		observers.remove(obs);
+		System.out.println("Observer "+obs+" removed.");
+
+
+	}
+
+	public Double getTemprature() {
+		return temprature;
+	}
+
+	public void setTemprature(Double temprature) {
+		this.temprature = temprature;
+		notifyObservers();
+	}
+
+	public Double getHumidity() {
+		return humidity;
+	}
+
+	public void setHumidity(Double humidity) {
+		this.humidity = humidity;
+		notifyObservers();
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer ob : observers) {
+			ob.update(this.temprature, this.humidity);
+
+		}
+
+	}
+
+}
+```
+##### *Observer.java*
+
+```java
+public interface Observer {
+	public void update(Double temprature, Double humidity);
+
+}
+```
+##### *Website.java*
+
+```java
+public class Website implements Observer{
+	private String name;
+
+	public Website(String nm) {
+		name = nm;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	@Override
+	public void update(Double temprature, Double humidity) {
+		System.out.println(name+": The temprature is: "+temprature+" the humidity is: "+humidity);
+
+	}
+
+}
+```
+##### *Screen.java*
+
+```java
+public class Screen implements Observer{
+	private String name;
+
+	public Screen(String nm) {
+		name = nm;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public void update(Double temprature, Double humidity) {
+		System.out.println(name+": The temprature is: "+temprature+" the humidity is: "+humidity);
+
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+		Weather weather = new Weather(28.7, 50.0);
+		Observer screen = new Screen("Screen");
+		Observer website = new Website("Website");
+
+		weather.addObserver(screen);
+		weather.addObserver(website);
+
+		weather.setTemprature(30.0);
+
+		weather.removeObserver(screen);
+
+		weather.setHumidity(80.0);
+
+
+	}
 }
 ```
