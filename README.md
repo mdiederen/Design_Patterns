@@ -1095,7 +1095,7 @@ public class Main {
 
 Het Observer pattern stuurt bij een verandering van het object dat geobserveerd wordt een notificatie naar de objecten die observeren. In het voorbeeld heb ik gebruik gemaakt van een weerstation. Als er een weerupdate binnen komt dan stuurt de Weather implementatie een update naar alle observers (website & screen) met de tempratuur & luchtvochtigheid.
 
-![alt text](UML/Observer_pattern.png "Iterator pattern diagram")
+![alt text](UML/Observer_pattern.png "Observer pattern diagram")
 
 ##### *Observable.java*
 
@@ -1244,5 +1244,92 @@ public class Main {
 
 
 	}
+}
+```
+### Strategy
+
+Het strategy pattern zorgt ervoor dat je algortimes kan implementeren op een simple en overzichtelijke manier. In het voorbeeld kan je bij vervoersmiddel aangeven of het voertuig wel of niet kan rijden door bij *setRijMogelijkheid* een kanRijden of kanNietRijden object aan te maken. Dit kan je tijdens runtime eventueel weer veranderen.
+
+![alt text](UML/Strategy_pattern.png "Strategy pattern diagram")
+
+#### Code staat op GitHub in de map Strategy
+
+### Template method
+
+
+*"Defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithms structure."* - GOF
+
+![alt text](UML/Template_Method_pattern.png "Template Method diagram")
+
+##### *AppCompiler.java*
+
+```java
+public abstract class AppCompiler {
+
+	//Deze final kan niet overschreven worden en zal dus altijd in deze volgorde plaatsvinden
+	public final void Compile() {
+		collectSource();
+		compileToTarget();
+	}
+
+	//Template methods (kunnen binnen de implementatie aangepast worden)
+	protected abstract void collectSource();
+	protected abstract void compileToTarget();
+}
+```
+##### *AndroidCompiler.java*
+
+```java
+public class AndroidCompiler extends AppCompiler {
+
+	@Override
+	protected void collectSource() {
+		System.out.println("Source collected");
+
+	}
+
+	@Override
+	protected void compileToTarget() {
+		System.out.println("Target Compiled");
+
+	}
+
+}
+```
+##### *IOSCompiler.java*
+
+```java
+public class IOSCompiler extends AppCompiler {
+
+	@Override
+	protected void collectSource() {
+		System.out.println("Source collected");
+
+	}
+
+	@Override
+	protected void compileToTarget() {
+		System.out.println("Target Compiled");
+
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+
+		AppCompiler iPhoneApp = new IOSCompiler();
+		AppCompiler AndroidApp = new AndroidCompiler();
+
+		iPhoneApp.Compile();
+		AndroidApp.Compile();
+
+
+	}
+
 }
 ```
