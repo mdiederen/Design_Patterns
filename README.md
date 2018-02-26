@@ -1255,7 +1255,7 @@ Het strategy pattern zorgt ervoor dat je algortimes kan implementeren op een sim
 #### Code staat op GitHub in de map Strategy
 
 ### Template method
-
+De template method wordt gebruikt als de strategy pattern "overkill" is. Omdat het wel bijna altijd een goed idee is om gebruik te maken van oververving maak je bij de template method een abstracte klasse aan waar de subklassen van over kunnen erven en eventueel kleine aanpassingen kunnen maken aan de operations. De template method is final en kan daarom niet aangepast worden.
 
 *"Defines the skeleton of an algorithm in a method, deferring some steps to subclasses. Template Method lets subclasses redefine certain steps of an algorithm without changing the algorithms structure."* - GOF
 
@@ -1328,6 +1328,150 @@ public class Main {
 		iPhoneApp.Compile();
 		AndroidApp.Compile();
 
+
+	}
+
+}
+```
+### Visitor
+
+Met het visitor pattern kan je een object langs een visitable object sturen om daar een calculatie uit te laten voeren en deze dan terug te geven aan de client. Een voorbeeld hiervan is het taxeren van alcohol, rookwaren en eten. Op al deze objecten zit een ander BTW tarief, je kan deze obejecten dan simpelweg langs een taxObject sturen om de juiste taxatie toe te passen.
+
+
+*"In object-oriented programming and software engineering, the visitor design pattern is a way of separating an algorithm from an object structure on which it operates. A practical result of this separation is the ability to add new operations to existent object structures without modifying the structures. It is one way to follow the open/closed principle.*
+
+*In essence, the visitor allows adding new virtual functions to a family of classes, without modifying the classes. Instead, a visitor class is created that implements all of the appropriate specializations of the virtual function. The visitor takes the instance reference as input, and implements the goal through double dispatch."* - wikipedia
+
+![alt text](UML/Visitor_pattern.png "Visitor Method diagram")
+
+##### *Visitor.java*
+
+```java
+public interface Visitor {
+
+	public double visit(Drank drankItem);
+	public double visit(Rookwaar rookItem);
+	public double visit(Voedsel voedselItem);
+
+}
+```
+##### *BelastingVisitor.java*
+
+```java
+public class BelastingVisitor implements Visitor {
+
+	public BelastingVisitor() {
+
+	}
+
+	@Override
+	public double visit(Drank drankItem) {
+		System.out.println("Drank item: prijs incl. BTW");
+		return ((drankItem.getPrijs() * 0.21)+drankItem.getPrijs());
+	}
+
+	@Override
+	public double visit(Rookwaar rookItem) {
+		System.out.println("Rookwaar item: prijs incl. BTW");
+		return ((rookItem.getPrijs() * 0.41)+rookItem.getPrijs());
+	}
+
+	@Override
+	public double visit(Voedsel voedselItem) {
+		System.out.println("Voedsel item: prijs incl. BTW");
+		return ((voedselItem.getPrijs() * 0.06)+voedselItem.getPrijs());
+	}
+
+}
+```
+##### *Visitable.java*
+
+```java
+public interface Visitable {
+
+	public double accept(Visitor visitor);
+
+}
+```
+##### *Drank.java*
+
+```java
+public class Drank implements Visitable{
+
+	private Double prijs;
+
+	public Drank(Double prijs) {
+		super();
+		this.prijs = prijs;
+	}
+
+	public Double getPrijs() {
+		return prijs;
+	}
+
+	public double accept(Visitor visitor) {
+
+		return visitor.visit(this);
+	}
+
+}
+```
+##### *Rookwaar.java*
+
+```java
+public class Rookwaar implements Visitable {
+
+private Double prijs;
+
+	public Rookwaar(Double prijs) {
+		super();
+		this.prijs = prijs;
+	}
+
+	public Double getPrijs() {
+		return prijs;
+	}
+	public double accept(Visitor visitor) {
+		return visitor.visit(this);
+	}
+}
+```
+##### *Voedsel.java*
+
+```java
+public class Voedsel implements Visitable{
+	private Double prijs;
+
+	public Voedsel(Double prijs) {
+		super();
+		this.prijs = prijs;
+	}
+
+	public Double getPrijs() {
+		return prijs;
+	}
+
+	@Override
+	public double accept(Visitor visitor) {
+		return visitor.visit(this);
+	}
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+		Drank wodka = new Drank(20.0);
+		Rookwaar camel = new Rookwaar(6.20);
+		Voedsel banaan = new Voedsel(2.0);
+
+		Visitor belastingdienst = new BelastingVisitor();
+
+		System.out.println(belastingdienst.visit(wodka));
+		System.out.println(belastingdienst.visit(camel));
+		System.out.println(belastingdienst.visit(banaan));
 
 	}
 
