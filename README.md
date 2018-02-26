@@ -1,6 +1,6 @@
 # Design patterns
 
-## Creational patterns
+## Creational Patterns
 
 ### Singleton
 Het singleton pattern zorgt ervoor dat er niet meer dan één object van een klasse word aangemaakt.
@@ -1473,6 +1473,268 @@ public class Main {
 		System.out.println(belastingdienst.visit(camel));
 		System.out.println(belastingdienst.visit(banaan));
 
+	}
+
+}
+```
+### Null object
+
+Het null object pattern is er voor de situaties dat je bijvoorbeeld in de opties van een applicatie een optionele functie in en uit kan schakelen. Je zou deze optionele functie dan normaal gezien met een if-block checken maar een if-block is geen elegante oplossing.
+
+Intent
+
+- Provide an object as a surrogate for the lack of an object of a given type.
+- The Null Object Pattern provides intelligent do nothing behavior, hiding the details from its collaborators.
+
+![alt text](UML/Null_object_pattern.png "Null Object diagram")
+
+##### *Animal.java*
+
+```java
+public interface Animal {
+
+	public void makeSound();
+
+}
+```
+##### *Dog.java*
+
+```java
+public class Dog implements Animal{
+
+	@Override
+	public void makeSound() {
+		System.out.println("Woof!");
+
+	}
+
+}
+```
+##### *NullAnimal.java*
+
+```java
+public class NullAnimal implements Animal {
+
+	@Override
+	public void makeSound() {
+
+
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+
+		// hier laten we het object null (comment out rocky.makeSound() om het volgende deel te testen.
+		Animal rocky = null;
+
+		//makeSound() geeft hier een java.lang.NullPointerException
+
+		// rocky.makeSound();
+
+		// hier gebruiken we het null object
+		rocky = new NullAnimal();
+
+		//makeSound() geeft hier GEEN java.lang.NullPointerException
+
+		rocky.makeSound();
+
+		// hier geven we rocky een hond object
+
+		rocky = new Dog();
+
+		rocky.makeSound();
+
+	}
+
+}
+```
+## Structural Design Patterns
+
+### Adapter
+
+Het adapter design pattern zorgt ervoor dat twee incompetible interfaces met elkaar samen kunnen werken. Hetzelfde als een adapter om van een amerikaanse stekker naar een europese stekker te gaan. De adapter bezit een soort omzet functie die zorgt dat de twee samen kunnen werken.
+
+![alt text](UML/Adapter_pattern.png "Adapter diagram")
+
+##### *InterfaceA.java*
+
+```java
+//Adaptee interface
+public interface InterfaceA {
+
+	public void methodeA();
+
+}
+```
+##### *KlasseA.java*
+
+```java
+//Target
+public class KlasseA implements InterfaceA{
+
+	@Override
+	public void methodeA() {
+
+		System.out.println("Methode van klasse A");
+
+	}
+
+}
+```
+##### *KlasseB.java*
+
+```java
+//Adaptee
+public class KlasseB {
+
+	public void methodeB() {
+
+		System.out.println("Methode van klasse A");
+
+	}
+
+}
+```
+##### *BnaarAAdapter.java*
+
+```java
+//Adapter
+public class BnaarAAdapter implements InterfaceA {
+
+	private KlasseB klasseB;
+
+	public BnaarAAdapter(KlasseB b) {
+		klasseB = b;
+	}
+
+	@Override
+	public void methodeA() {
+		klasseB.methodeB();
+
+	}
+
+	public void setKlasseB(KlasseB klasseB) {
+		this.klasseB = klasseB;
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+
+		KlasseB kB = new KlasseB();
+
+		BnaarAAdapter adapter = new BnaarAAdapter(kB);
+
+		DoeIetsMetEenA(adapter);
+
+	}
+
+	private static void DoeIetsMetEenA(InterfaceA a) {
+ 		a.methodeA();
+ 	}
+
+}
+
+```
+
+### Bridge
+
+Het bridge pattern is bedoeld om de abstractie en de implementatie los te kopppelen van elkaar. Het patroon is vooral handig als je twee klassen hebt die veel veranderen.
+
+![alt text](UML/Bridge_pattern.png "Bridge pattern diagram")
+
+##### *DrawAPI.java*
+
+```java
+// bridge implementer interface
+public interface DrawAPI {
+	public void drawCircle(int radius, int x, int y);
+}
+```
+##### *GreenCircle.java*
+
+```java
+public class GreenCircle implements DrawAPI {
+
+	@Override
+	public void drawCircle(int radius, int x, int y) {
+	      System.out.println("Drawing Circle[ color: green, radius: " + radius + ", x: " + x + ", " + y + "]");
+
+	}
+
+}
+```
+##### *RedCircle.java*
+
+```java
+public class RedCircle implements DrawAPI{
+
+	@Override
+	public void drawCircle(int radius, int x, int y) {
+	      System.out.println("Drawing Circle[ color: red, radius: " + radius + ", x: " + x + ", " + y + "]");
+
+	}
+
+}
+```
+##### *Shape.java*
+
+```java
+public abstract class Shape {
+
+	protected DrawAPI drawAPI;
+
+	protected Shape(DrawAPI drawAPI){
+		this.drawAPI = drawAPI;
+	}
+
+	public abstract void draw();
+}
+```
+##### *Circle.java*
+
+```java
+public class Circle extends Shape {
+
+	private int x, y, radius;
+
+	public Circle(int x, int y, int radius, DrawAPI drawAPI) {
+		super(drawAPI);
+		this.x = x;  
+		this.y = y;  
+		this.radius = radius;
+	}
+
+	@Override
+	public void draw() {
+		drawAPI.drawCircle(radius,x,y);
+
+	}
+
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+
+	public static void main(String[] args) {
+		Shape redCircle = new Circle(100,100, 10, new RedCircle());
+		Shape greenCircle = new Circle(100,100, 10, new GreenCircle());
+
+		redCircle.draw();
+		greenCircle.draw();
 	}
 
 }
