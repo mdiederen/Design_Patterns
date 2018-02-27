@@ -1862,3 +1862,220 @@ public class Main {
 	}
 }
 ```
+## Flyweight
+
+Het Flyweight pattern is gemaakt om eenvoudig een grote groep objecten aan te maken die deels gelijke eigenschappen hebben en deels variabelen eigenschappen bezitten.
+
+Implementation
+
+* Flyweight
+	- Declares an interface through which flyweights can receive and act on extrinsic state.
+* ConcreteFlyweight
+	- Implements the Flyweight interface and stores intrinsic state. A ConcreteFlyweight object must be sharable. The Concrete flyweight object must maintain state that it is intrinsic to it, and must be able to manipulate state that is extrinsic. In the war game example graphical representation is an intrinsic state, where location and health states are extrinsic. Soldier moves, the motion behavior manipulates the external state (location) to create a new location.
+* FlyweightFactory
+	- The factory creates and manages flyweight objects. In addition the factory ensures sharing of the flyweight objects. The factory maintains a pool of different flyweight objects and returns an object from the pool if it is already created, adds one to the pool and returns it in case it is new.
+	In the war example a Soldier Flyweight factory can create two types of flyweights : a Soldier flyweight, as well as a Colonel Flyweight. When the Client asks the Factory for a soldier, the factory checks to see if there is a soldier in the pool, if there is, it is returned to the client, if there is no soldier in pool, a soldier is created, added to pool, and returned to the client, the next time a client asks for a soldier, the soldier created previously is returned, no new soldier is created.
+* Client
+ 	- A client maintains references to flyweights in addition to computing and maintaining extrinsic state
+
+![alt text](UML/Flyweight_pattern.png "Flyweight pattern diagram")
+
+#### Code staat op GitHub in de map Flyweight
+
+## Memento
+
+Het Memento pattern is gemaakt om versies / states op te slaan en makkelijk op te vragen.
+
+Dit kan bijvoorbeeld gebruikt worden bij de autosave functionaliteit in een applicatie.
+
+Het pattern bestaat uit:
+* Memento
+	- Het object dat in verschillende versies wordt opgeslagen.
+* CareTaker
+	- Bezit een ArrayList met alle versies van de Memento.
+	- Het slaat de memento's op en kan ze ophalen.
+* Originator
+	- Interacteerd met de huidig actieve memento (getters / setters)
+	- Creeërt nieuwe Mementos.
+
+	![alt text](UML/Memento_pattern.png "Flyweight pattern diagram")
+
+	##### *Memento.java*
+
+	```java
+	class Memento {
+	    private String state;
+
+	    public Memento(String state) {
+
+	        this.state = state;
+	    }
+
+	    public String getState() {
+
+	        return state;
+	    }
+	}
+	```
+	##### *CareTaker.java*
+
+	```java
+	class Caretaker {
+	    private ArrayList<Memento> mementos = new ArrayList<>();
+
+	    public void addMemento(Memento m) {
+
+	        mementos.add(m);
+	    }
+
+	    public Memento getMemento(int version) {
+
+	        return mementos.get(version);
+	    }
+	}
+	```
+	##### *Originator.java*
+
+	```java
+	class Originator {
+	    private String state;
+
+
+	    public void setState(String state) {
+	        System.out.println("Originator: Setting state to " + state);
+	        this.state = state;
+	    }
+
+	    public Memento save() {
+	        System.out.println("Originator: Saving to Memento.");
+	        return new Memento(state);
+	    }
+	    public void restore(Memento m) {
+	        state = m.getState();
+	        System.out.println("Originator: State after restoring from Memento: " + state);
+	    }
+	}
+	```
+	##### *Main.java*
+
+	```java
+	public class Main {
+	    public static void main(String[] args) {
+	        Caretaker caretaker = new Caretaker();
+	        Originator originator = new Originator();
+	        originator.setState("State1");
+
+	        originator.setState("State2");
+	        caretaker.addMemento(originator.save());
+
+	        originator.setState("State3");
+	        caretaker.addMemento(originator.save());
+
+	        originator.setState("State4");
+
+	        originator.restore(caretaker.getMemento(0));
+	    }
+	}
+	```
+
+## Proxy
+
+Het laatste pattern van deze samenvatting is het Proxy pattern. Het proxy pattern zorgt voor een placeholder voor een object. Denk bijvoorbeeld aan een lage resolutie foto als thumbnail voor de hoge resolutie foto. Het is ook iets wat veel gebruikt word ter beveiliging. Je kan een proxy zo maken dat je maar bepaalde functies van het daadwerkelijke object kan aanvragen. Denk hierbij bijvoorbeeld aan een pinautomaat. De klant mag wel zijn rekening checken maar niet zomaar geld uit de automaat halen of de automaat aanpassen.
+
+The participants classes in the proxy pattern are:
+* Subject
+	- Interface implemented by the RealSubject and representing its services. The interface must be implemented by the proxy as well so that the proxy can be used in any location where the RealSubject can be used.
+* Proxy
+	- Maintains a reference that allows the Proxy to access the RealSubject.
+	- Implements the same interface implemented by the RealSubject so that the Proxy can be substituted for the RealSubject.
+	- Controls access to the RealSubject and may be responsible for its creation and deletion.
+	- Other responsibilities depend on the kind of proxy.
+* RealSubject
+	- the real object that the proxy represents.
+
+
+	<br>
+
+	![alt text](UML/Proxy_pattern.png "Proxy pattern diagram")
+
+	##### *PintautomaatData.java*
+
+	```java
+	public interface PinautomaatData {
+
+		public String getAutomaatData();
+		public int getGeldInAutomaat();
+
+	}
+	```
+	##### *Pinautomaat.java*
+
+	```java
+	public class Pinautomaat implements PinautomaatData{
+	private int geldInMachine = 20000;
+	private int automaatID = 1234;
+
+	@Override
+	public String getAutomaatData() {
+		String s = "AutomaatID: " + automaatID;
+		return s;
+	}
+
+	@Override
+	public int getGeldInAutomaat() {
+		return geldInMachine;
+	}
+
+	public int getGeldInMachine() {
+		return geldInMachine;
+	}
+
+	public void setGeldInMachine(int geldInMachine) {
+		this.geldInMachine = geldInMachine;
+	}
+
+	public int getAutomaatID() {
+		return automaatID;
+	}
+
+	public void setAutomaatID(int automaatID) {
+		this.automaatID = automaatID;
+	}
+
+}
+	```
+	##### *PinautomaatProxy.java*
+
+	```java
+	public class PinAutomaatProxy implements PinautomaatData{
+
+		@Override
+		public String getAutomaatData() {
+			Pinautomaat p = new Pinautomaat();
+			return p.getAutomaatData();
+		}
+
+		@Override
+		public int getGeldInAutomaat() {
+			Pinautomaat p = new Pinautomaat();
+			return p.getGeldInAutomaat();
+		}
+
+	}
+	```
+	##### *Main.java*
+
+	```java
+	public class Main {
+
+	public static void main(String[] args) {
+
+		PinautomaatData pinautomaatProxy = new PinAutomaatProxy();
+
+		System.out.println(pinautomaatProxy.getAutomaatData());
+		System.out.println(pinautomaatProxy.getGeldInAutomaat());
+
+	}
+
+}
+	```
