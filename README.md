@@ -1739,3 +1739,126 @@ public class Main {
 
 }
 ```
+## Composite
+
+Het composite pattern geeft je de mogelijkheid om een tree structure te bouwen en ieder object in deze structure een methode te laten uitvoeren.
+
+Composite kan leafs onder zich hebben, leaf kan geen objecten onder zich hebben.
+
+Elements:
+* Component (Werknemer)
+	- declares interface for objects in composition.
+	- implements deafault behaviour for the interface common to all classes as appropriate.
+	- declares an interface for accessing and managing its child components.
+* Leaf (Ontwikkelaar)
+	- represents leaf objects in the composition.A leaf has no children.
+	- defines behaviour for primitive objects in the composition.
+* Composite (Manager)
+	-	defines behaviour for components having children.
+	- stores child components.
+	- implements child related operations in the component interface.
+* Client
+	- manipulates objects in the composition through the component interface.
+
+![alt text](UML/Composite_pattern.png "Composite pattern diagram")
+
+#### Code staat op GitHub in de map Composite
+
+## Decorator
+
+Het Decorator pattern kan dynamisch extra functionaliteit toevoegen aan een object. Dit is flexibeler dan het uitbreiden van functionaliteit d.m.v. subklassen. Een voordeel is dat het zowel makkelijk functionaliteit toe kan voegen als op kan heven.
+
+![alt text](UML/Decorator_pattern.png "Decorator pattern diagram")
+
+##### *Vorm.java*
+
+```java
+public interface Vorm {
+
+	void teken();
+
+}
+```
+##### *Rechthoek.java*
+
+```java
+public class Rechthoek implements Vorm{
+
+	@Override
+	public void teken() {
+		System.out.println("Vorm: Rechthoek");
+
+	}
+
+}
+```
+##### *Cirkel.java*
+
+```java
+public class Cirkel implements Vorm{
+
+	@Override
+	public void teken() {
+		System.out.println("Vorm: Cirkel");
+
+	}
+
+}
+```
+##### *VormDecorator.java*
+
+```java
+public abstract class VormDecorator implements Vorm {
+
+	protected Vorm vorm;
+
+	public VormDecorator(Vorm vorm) {
+		super();
+		this.vorm = vorm;
+	}
+
+	@Override
+	public void teken() {
+		vorm.teken();
+
+	}
+
+}
+```
+##### *BlauweVormDecorator.java*
+
+```java
+public class BlauweVormDecorator extends VormDecorator{
+
+	public BlauweVormDecorator(Vorm vorm) {
+		super(vorm);
+	}
+
+	@Override
+	public void teken() {
+		vorm.teken();
+		setBlauweKleur(vorm);
+
+	}
+
+	private void setBlauweKleur(Vorm vorm){
+		System.out.println("Vormkleur: blauw");
+	}
+}
+```
+##### *Main.java*
+
+```java
+public class Main {
+	public static void main(String[] args) {
+
+		Vorm blauweCirkel = new BlauweVormDecorator(new Cirkel());
+
+		blauweCirkel.teken();
+
+		Vorm blauweRechthoek = new BlauweVormDecorator(new Rechthoek());
+
+		blauweRechthoek.teken();
+	}
+}
+```
