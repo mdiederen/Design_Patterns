@@ -1993,25 +1993,22 @@ The participants classes in the proxy pattern are:
 * RealSubject
 	- the real object that the proxy represents.
 
+![alt text](UML/Proxy_pattern.png "Proxy pattern diagram")
 
-	<br>
+##### *PintautomaatData.java*
 
-	![alt text](UML/Proxy_pattern.png "Proxy pattern diagram")
+```java
+public interface PinautomaatData {
 
-	##### *PintautomaatData.java*
-
-	```java
-	public interface PinautomaatData {
-
-		public String getAutomaatData();
+	public String getAutomaatData();
 		public int getGeldInAutomaat();
 
-	}
-	```
-	##### *Pinautomaat.java*
+}
+```
+##### *Pinautomaat.java*
 
-	```java
-	public class Pinautomaat implements PinautomaatData{
+```java
+public class Pinautomaat implements PinautomaatData{
 	private int geldInMachine = 20000;
 	private int automaatID = 1234;
 
@@ -2042,11 +2039,11 @@ The participants classes in the proxy pattern are:
 		this.automaatID = automaatID;
 	}
 
-}
-	```
-	##### *PinautomaatProxy.java*
+	}
+```
+##### *PinautomaatProxy.java*
 
-	```java
+```java
 	public class PinAutomaatProxy implements PinautomaatData{
 
 		@Override
@@ -2062,10 +2059,10 @@ The participants classes in the proxy pattern are:
 		}
 
 	}
-	```
-	##### *Main.java*
+```
+##### *Main.java*
 
-	```java
+```java
 	public class Main {
 
 	public static void main(String[] args) {
@@ -2075,7 +2072,7 @@ The participants classes in the proxy pattern are:
 		System.out.println(pinautomaatProxy.getAutomaatData());
 		System.out.println(pinautomaatProxy.getGeldInAutomaat());
 
-	}
+		}
 
-}
-	```
+	}
+```

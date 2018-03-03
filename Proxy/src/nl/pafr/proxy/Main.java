@@ -9,9 +9,6 @@ public class Main {
 		System.out.println(pinautomaatProxy.getAutomaatData());
 		System.out.println(pinautomaatProxy.getGeldInAutomaat());
 		
-
-		
-
 	}
 
 }
